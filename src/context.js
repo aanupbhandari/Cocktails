@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
 
 const AppContext = React.createContext()
@@ -12,7 +12,7 @@ const AppProvider = ({ children }) => {
   const [cocktails, setCocktails] = useState([])
 
   // since we have the url(api from cocktaildb) we fetch the url and we call this fucntion every time we type something in the input
-  const fetchDrinks = async () => {
+  const fetchDrinks = useCallback(async () => {
     setLoading(true)
     try {
       const response = await fetch(`${url}${searchTerm}`)
@@ -45,10 +45,10 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [searchTerm])
   useEffect(() => {
     fetchDrinks()
-  }, [searchTerm])
+  }, [searchTerm, fetchDrinks])
 
   return (
     <AppContext.Provider value={{ loading, cocktails, setSearchTerm }}>
