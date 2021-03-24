@@ -18,5 +18,4 @@ const Cocktail = ({ id, image, name, glass, info }) => {
     </article>
   )
 }
-
 export default Cocktail
